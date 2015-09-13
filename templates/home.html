@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% block content %}
+<br/>
+<div class="col-md-10">
+	
+	<ul class="nav nav-tabs">
+  <li class="active"><a href="#home" data-toggle="tab">Home</a></li>
+  <li><a href="#profile" data-toggle="tab">My selections</a></li>
+</ul>
+<div id="myTabContent" class="tab-content">
+  <div class="tab-pane fade active in" id="home">
+  <br/>
+   <form action="/search/" method="POST">
+   {% csrf_token %}
+  <div class="form-group">
+  <div class="col-md-3">
+    <select id="selectbasic" name="selectbasic" class="form-control">
+      <option value="all">All</option>
+      <option value="fashion">Fashion</option>
+      <option value="electronic">Electronics</option>
+      <option value="food">Food</option>
+      <option value="travel">Travel</option>
+    </select>
+  </div>
+</div>
+
+<div class="form-group">
+   <div class="input-group col-md-6">
+    <!--span class="input-group-addon">Search</span-->
+    <input type="text" class="form-control" placeholder="search" disabled>
+    <span class="input-group-btn">
+      <button class="btn btn-default" type="submit" ><i>Search!</i></button>
+    </span>
+  </div>
+</div>
+</form>
+{% if results %}
+	<h4>{{num}} items found</h4>
+	<div class="row">
+	{% for p in results %}
+  <div class="col-sm-6 col-md-3">
+    <div class="thumbnail">
+      <img src="{{p.image.url}}" alt="...">
+      <div class="caption">
+        <h3>{{p.name}}</h3>
+        <p>{{p.description|truncatewords:9}}
+        <p><a href="#"  id="{{p.pk}}" class="btn btn-primary  btn-sm item select">Select</a>
+        	<a href="#" id="-{{p.pk}}" class="btn btn-danger  btn-sm item remove">Remove</a></p>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+  </div>
+
+{% else %}
+	<div class="row">
+	{% for p in products %}
+  <div class="col-sm-6 col-md-3">
+    <div class="thumbnail">
+      <img src="{{p.image.url}}" alt="...">
+      <div class="caption">
+        <h3>{{p.name}}</h3>
+        <p>{{p.description|truncatewords:9}}
+        <p><a href="#"  id="{{p.pk}}" class="btn btn-primary  btn-sm item select">Select</a>
+        	<a href="#" id="-{{p.pk}}" class="btn btn-danger  btn-sm item remove">Remove</a></p>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+  </div>
+  {% endif %}
+  </div>
+  <div class="tab-pane fade" id="profile">
+  <br/>
+   <p class="text-warning">click <a href="/">here</a> to see new changes</p>
+   <br/>
+   	<div class="row">
+	{% for p in selected %}
+  <div class="col-sm-6 col-md-3">
+    <div class="thumbnail">
+      <img src="{{p.product.image.url}}" alt="...">
+      <div class="caption">
+        <h3>{{p.product.name}}</h3>
+        <p>{{p.product.description|truncatewords:9}}
+         <p><!--a href="#"  id="{{p.pk}}" class="btn btn-danger  btn-sm item uncurate">Remove</a--></p>
+        </div>
+    </div>
+  </div>
+  {% endfor %}
+  </div>
+  </div>
+
+
+  </div>
+</div>
+
+</div>
+{% endblock %}

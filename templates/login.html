@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<br/>
+ <div>
+      
+        <div class="container">
+            <br/>
+            <br/>
+            <br/>
+        <div class="col-md-4 well" style="  margin-left: 35%;margin-right: 35%;">
+      <center><form class="form-signin" method="post" action="{% url 'django.contrib.auth.views.login' %}">
+      {% csrf_token %}
+        <h2 class="form-signin-heading">Sign in</h2>
+        <label for="inputEmail" class="sr-only">Username</label>
+        <br/>{{ form.username }}<br/>
+        <label for="inputPassword" class="sr-only">Password</label>
+        <br/>{{ form.password}}<br/>
+        <br/>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+        <input type="hidden" name="next" value="{{ next }}" />
+      </form>
+       <button class="btn btn-lg btn-block" type="submit"><a href="{% url 'socialauth_begin' 'google-oauth2' %}" style="text-decoration:none;"><i class="fa fa-google-plus"> Sign In</i></a></button></center>
+    </div>
+       </div>
+    </div>
+{% endblock %}
