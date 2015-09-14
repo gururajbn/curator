@@ -5,7 +5,7 @@
 	
 	<ul class="nav nav-tabs">
   <li class="active"><a href="#home" data-toggle="tab">Home</a></li>
-  <li><a href="#profile" data-toggle="tab">My selections</a></li>
+  <li><a href="#profile" data-toggle="tab">My selections <span class="badge">{{selected.count}}</span></a></li>
 </ul>
 <div id="myTabContent" class="tab-content">
   <div class="tab-pane fade active in" id="home">
@@ -29,26 +29,26 @@
     <!--span class="input-group-addon">Search</span-->
     <input type="text" class="form-control" placeholder="search" disabled>
     <span class="input-group-btn">
-      <button class="btn btn-default" type="submit" ><i>Search!</i></button>
+      <button class="btn btn-primary" type="submit" ><i>Search!</i></button>
     </span>
   </div>
 </div>
 </form>
 {% if results %}
-	<h4>{{num}} items found</h4>
+	<h2>{{message}}</h2>
 	<div class="row">
 	{% for p in results %}
   <div class="col-sm-6 col-md-3">
     <div class="thumbnail">
-     <img src="{{p.image}}" alt="..." style="min-height:200px;height:200px;">
+     <img src="{{p.image}}" onError="this.onerror=null;this.src='http://www.optimizeddir.com/wp-content/themes/directorypress/thumbs/no-image.jpg';" alt="..." style="min-height:200px;height:200px;">
       <div class="caption">
-        <h3>{{p.brand}}</h3>
+        <strong>{{p.brand|truncatewords:3}}</strong>
         <!--h4>{{p.name|truncatewords:3}}</h4-->
-        <!--p>{{p.description|truncatewords:10}}-->
+       <p>{{p.description|truncatechars:40}}</p>
         <p> 
         	<a href="#"  id="{{p.pk}}" class="btn btn-success  btn-sm item select">Select</a>
         	<a href="#" id="-{{p.pk}}" class="btn btn-danger  btn-sm item remove">Remove</a>
-        	<a href="#" class="btn btn-link">more ..</a>
+        	<a href="#" class="btn btn-link detail" id="{{p.pk}}" data-toggle="modal" data-target="#myModal">more ..</a>
         	<span class="label label-primary">${{p.price}}</span>
         	</p>
       </div>
@@ -62,15 +62,15 @@
 	{% for p in products %}
   <div class="col-sm-6 col-md-3">
     <div class="thumbnail">
-      <img src="{{p.image}}" alt="..." style="min-height:200px;height:200px;">
+      <img src="{{p.image}}" onError="this.onerror=null;this.src='http://www.optimizeddir.com/wp-content/themes/directorypress/thumbs/no-image.jpg';" alt="..." style="min-height:200px;height:200px;">
       <div class="caption">
-        <h3>{{p.brand}}</h3>
+        <strong>{{p.brand|truncatewords:3}}</strong>
         <!--h4>{{p.name|truncatewords:3}}</h4-->
-        <!--p>{{p.description|truncatewords:10}}-->
+        <p>{{p.description|truncatechars:40}}</p>
         <p> 
         	<a href="#"  id="{{p.pk}}" class="btn btn-success  btn-sm item select">Select</a>
         	<a href="#" id="-{{p.pk}}" class="btn btn-danger  btn-sm item remove">Remove</a>
-        	<a href="#" class="btn btn-link">more ..</a>
+        	<a href="#" id="{{p.pk}}"class="btn btn-link detail" data-toggle="modal" data-target="#myModal">more ..</a>
         	<span class="label label-primary">${{p.price}}</span>
         	</p>
       </div>
@@ -82,21 +82,20 @@
   </div>
   <div class="tab-pane fade" id="profile">
   <br/>
-   <p class="text-warning">click <a href="/">here</a> to see new changes</p>
+   <p class="text-warning">please <a href="/">refresh</a> this page to see new changes</p>
    <br/>
    	<div class="row">
 	{% for p in selected %}
   <div class="col-sm-6 col-md-3">
     <div class="thumbnail">
-      <img src="{{p.product.image}}"  onError="this.onerror=null;this.src='https://insidematters.eu/sites/default/files/placeholder.png';" alt="..." style="min-height:200px;height:200px;">
+      <img src="{{p.product.image}}"  onError="this.onerror=null;this.src='http://www.optimizeddir.com/wp-content/themes/directorypress/thumbs/no-image.jpg';" alt="..." style="min-height:200px;height:200px;">
       <div class="caption">
-        <h3>{{p.product.brand}}</h3>
+        <strong>{{p.product.brand|truncatewords:3}}</strong>
         <!--h4>{{p.name|truncatewords:3}}</h4-->
-        <!--p>{{p.description|truncatewords:10}}-->
+        <p>{{p.product.description|truncatechars:40}}</p>
         <p> 
-        	<a href="#"  id="{{p.product.pk}}" class="btn btn-success  btn-sm item ">Select</a>
-        	<a href="#" id="-{{p.product.pk}}" class="btn btn-danger  btn-sm item ">Remove</a>
-        	<a href="#" class="btn btn-link">more ..</a>
+        	<a href="#" id="-{{p.product.pk}}" class="btn btn-danger  btn-sm item uncurate">Remove</a>
+        	<a href="#" class="btn btn-link detail" id="{{p.product.pk}}" data-toggle="modal" data-target="#myModal">more ..</a>
         	<span class="label label-primary">${{p.product.price}}</span>
         	</p>
       </div>
@@ -105,10 +104,38 @@
   {% endfor %}
   </div>
   </div>
-
-
   </div>
 </div>
+<!-- modal -->
+<!-- Button trigger modal -->
 
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Product title</h4>
+      </div>
+      <div class="modal-body">
+      <div class="row">
+      		<div class="col-md-6">
+      			<img id="image" src="" onError="this.onerror=null;this.src='http://www.optimizeddir.com/wp-content/themes/directorypress/thumbs/no-image.jpg';" alt="..." style="min-height:60%;height:50%;width:100%">
+      		</div>
+      		<div class="col-md-6">
+      			<h2 id="brand"  class="text-primary"></h2>
+      			<p id="descrip"></p>
+      			<h1 id="price" class="text-success"></h1>
+				
+      		</div>
+      </div>
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
 </div>
+<!-- endmodal -->
 {% endblock %}

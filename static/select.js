@@ -1,9 +1,13 @@
 $(document).ready(function(){
 
 	console.log("loaded");
+
 	var itemList=[];
 	$(".remove").hide();
 	$(".select").click(function(){
+		var tempScrollTop = $(window).scrollTop();
+		console.log(scroll);
+// yada
 		var pk=this.id;
 		console.log(pk);
 		itemList.push(pk);
@@ -14,12 +18,14 @@ $(document).ready(function(){
             type: "POST",
             url: "/",
             data: {"itemId": pk},
+            async:false,
             success: function(data) {
                 console.log(data.pk);
-                $(npk).fadeIn();		
+                $(npk).fadeIn();	
+                
             }
 			});
-
+		$(window).scrollTop(tempScrollTop);
 	});
 
 
@@ -48,7 +54,15 @@ $(document).ready(function(){
 	});
 
 	$(".uncurate").click(function(){
-		var id=this.id;
+		var pk=this.id;
+		console.log(pk);
+		itemList.push(pk);
+		//console.log(itemList);
+		$(this).hide();
+
+		var id=pk.slice(1);
+		console.log(id);
+		var npk="#"+id;
 		$.ajax({
             type: "POST",
             url: "/delete/",
@@ -59,7 +73,26 @@ $(document).ready(function(){
           
             }
 			});
-	})
+	});
+
+	$(".detail").click(function(){
+		var pk=this.id;
+		console.log(pk);
+		$.ajax({
+			type: "GET",
+			url:"/search/",
+			data:{"itemId":pk},
+			success: function(data){
+				console.log(data);
+				$("#image").attr('src', data.image);
+				$("#myModalLabel").html(data.name);
+				$("#brand").html(data.brand);
+				$("#descrip").html(data.description);
+				$("#price").html("$"+data.price);
+
+			}
+		});
+	});
 
 	// CSRF code
     function getCookie(name) {

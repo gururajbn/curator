@@ -18,7 +18,8 @@ def upload():
 
 	for i in range(1,food.nrows):
 		p=food.row_values(i)
-		print i
+		#print p[4]
+		#print p[4],type(p[4]),int(p[4])
 		addProduct(p)
 
 	'''

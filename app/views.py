@@ -8,7 +8,7 @@ class home(View):
 
 	def get(self,request):
 		template_name="home.html"
-		pro= products.objects.filter(curated=False)[:10]
+		pro= products.objects.filter(curated=False).order_by("?")[:17]
 		sel= selected.objects.filter(user=request.user)
 		return render(request,template_name,{
 			"products":pro,
@@ -42,6 +42,20 @@ class delete(View):
 
 class search(View):
 
+	def get(self,request):
+		itemId= request.GET["itemId"]
+		print "itemId:",itemId
+		product= products.objects.get(pk=itemId)
+		data={
+				"name":product.name,
+				"brand":product.brand,
+				"price":product.price,
+				"description":product.description,
+				"category":product.category,
+				"image":product.image
+		}
+		return HttpResponse(json.dumps(data),content_type="application/json")
+
 	def post(self,request):
 		category= request.POST["selectbasic"]
 		if category == "all":
@@ -50,7 +64,8 @@ class search(View):
 		print itemList,category
 		template_name="home.html"
 		data={"results":itemList,
-		      "num":len(itemList)
+		      "message": "%d items found in %s" % (len(itemList),category.capitalize()),
+		      "selected":selected.objects.filter(user=request.user)
 			  }
 		return render(request,template_name,data)
 		
