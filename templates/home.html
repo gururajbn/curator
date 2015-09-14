@@ -88,14 +88,18 @@
 	{% for p in selected %}
   <div class="col-sm-6 col-md-3">
     <div class="thumbnail">
-      <img src="{{p.product.image}}" alt="...">
+      <img src="{{p.product.image}}"  onError="this.onerror=null;this.src='https://insidematters.eu/sites/default/files/placeholder.png';" alt="..." style="min-height:200px;height:200px;">
       <div class="caption">
-        <h3>{{p.product.name}}</h3>
+        <h3>{{p.product.brand}}</h3>
+        <!--h4>{{p.name|truncatewords:3}}</h4-->
+        <!--p>{{p.description|truncatewords:10}}-->
         <p> 
-        	<a href="#" id="-{{p.pk}}" class="btn btn-danger  btn-sm item">Remove</a>
+        	<a href="#"  id="{{p.product.pk}}" class="btn btn-success  btn-sm item ">Select</a>
+        	<a href="#" id="-{{p.product.pk}}" class="btn btn-danger  btn-sm item ">Remove</a>
         	<a href="#" class="btn btn-link">more ..</a>
-        	<span class="label label-primary">${{p.price}}</span>
+        	<span class="label label-primary">${{p.product.price}}</span>
         	</p>
+      </div>
     </div>
   </div>
   {% endfor %}
