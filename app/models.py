@@ -3,10 +3,10 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 categories=(
-	('electronic','Electronic'),
-	('fashion','Fashion'),
-	('food','Food'),
-	('travel','Travel')
+	('Electronics','Electronics'),
+	('Fashion','Fashion'),
+	('Food','Food'),
+	('Travel','Travel')
 	)
 
 class products(models.Model):
@@ -15,7 +15,7 @@ class products(models.Model):
 	price= models.PositiveSmallIntegerField(default=0)
 	category= models.CharField(choices=categories,max_length=50)
 	description= models.TextField(blank=True,null=True)
-	image=models.FileField(upload_to="products/")
+	image=models.URLField()
 	curated= models.BooleanField(default=False)
 
 	def __unicode__(self):

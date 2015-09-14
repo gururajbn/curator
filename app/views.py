@@ -8,7 +8,7 @@ class home(View):
 
 	def get(self,request):
 		template_name="home.html"
-		pro= products.objects.filter(curated=False)
+		pro= products.objects.filter(curated=False)[:10]
 		sel= selected.objects.filter(user=request.user)
 		return render(request,template_name,{
 			"products":pro,
