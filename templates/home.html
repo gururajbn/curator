@@ -14,7 +14,7 @@
    {% csrf_token %}
   <div class="form-group">
   <div class="col-md-3">
-    <select id="selectbasic" name="selectbasic" class="form-control">
+    <select id="selectbasic" name="selectbasic" class="form-control"  onchange="this.form.submit()">
       <option value="all">All</option>
       <option value="Fashion">Fashion</option>
       <option value="Electronics">Electronics</option>
@@ -46,7 +46,7 @@
         <!--h4>{{p.name|truncatewords:3}}</h4-->
        <p>{{p.description|truncatechars:40}}</p>
         <p> 
-        	<a href="#"  id="{{p.pk}}" class="btn btn-success  btn-sm item select">Select</a>
+        	<a href="#"  id="{{p.pk}}" class="btn btn-primary  btn-sm item select">Select</a>
         	<a href="#" id="-{{p.pk}}" class="btn btn-danger  btn-sm item remove">Remove</a>
         	<a href="#" class="btn btn-link detail" id="{{p.pk}}" data-toggle="modal" data-target="#myModal">more ..</a>
         	<span class="label label-primary">${{p.price}}</span>
@@ -68,7 +68,7 @@
         <!--h4>{{p.name|truncatewords:3}}</h4-->
         <p>{{p.description|truncatechars:40}}</p>
         <p> 
-        	<a href="#"  id="{{p.pk}}" class="btn btn-success  btn-sm item select">Select</a>
+        	<a href="#"  id="{{p.pk}}" class="btn btn-primary  btn-sm item select">Select</a>
         	<a href="#" id="-{{p.pk}}" class="btn btn-danger  btn-sm item remove">Remove</a>
         	<a href="#" id="{{p.pk}}"class="btn btn-link detail" data-toggle="modal" data-target="#myModal">more ..</a>
         	<span class="label label-primary">${{p.price}}</span>
@@ -121,12 +121,15 @@
       <div class="row">
       		<div class="col-md-6">
       			<img id="image" src="" onError="this.onerror=null;this.src='http://www.optimizeddir.com/wp-content/themes/directorypress/thumbs/no-image.jpg';" alt="..." style="min-height:60%;height:50%;width:100%">
+      			<span class="label label-danger" id="metadata"></span>
       		</div>
       		<div class="col-md-6">
       			<h2 id="brand"  class="text-primary"></h2>
       			<p id="descrip"></p>
+            <a href="" id="crop" class="btn btn-primary btn-sm">Crop image</a>
       			<h1 id="price" class="text-success"></h1>
-				
+
+      			
       		</div>
       </div>
         

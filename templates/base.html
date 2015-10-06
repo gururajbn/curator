@@ -19,6 +19,8 @@
     <!--script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script-->
 <script type="text/javascript" src="/static/select.js"></script>
     <title>Miip Curator Tool</title>
+    {% block head %}
+    {% endblock %}
 </head>
 <body>
 
@@ -73,7 +75,8 @@
  
     <!--script src="{{STATIC_URL}}darkly/jquery-1.10.2.min.js"></script-->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
- 
+ {% block footer%}
+ {% endblock %}
 </body>
 <!--footer>
  <p>

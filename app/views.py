@@ -52,7 +52,8 @@ class search(View):
 				"price":product.price,
 				"description":product.description,
 				"category":product.category,
-				"image":product.image
+				"image":product.image,
+				"pk":product.pk
 		}
 		return HttpResponse(json.dumps(data),content_type="application/json")
 
@@ -69,4 +70,13 @@ class search(View):
 			  }
 		return render(request,template_name,data)
 		
+class crop(View):
+
+	def get(self,request,pk):
+		image= products.objects.get(pk=pk)
+		template_name="crop.html"
+		data={
+			"item":image
+		}
+		return render(request,template_name,data)
 		

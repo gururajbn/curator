@@ -89,7 +89,10 @@ $(document).ready(function(){
 				$("#brand").html(data.brand);
 				$("#descrip").html(data.description);
 				$("#price").html("$"+data.price);
-
+				$("#crop").attr('href','/crop/'+data.pk);
+				$("#image").load(function(){
+					$("#metadata").html(this.width+" x "+this.height);
+					});
 			}
 		});
 	});

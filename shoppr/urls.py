@@ -18,7 +18,8 @@ from django.contrib import admin
 from django.conf.urls.static import static
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
-from app.views import home,delete,search
+from app.views import home,delete,search,crop
+from django.views.generic import TemplateView
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'', include('social_auth.urls')),
@@ -27,5 +28,6 @@ urlpatterns = [
     url(r"^logout/$", "django.contrib.auth.views.logout_then_login",name="logout"),
     url(r"^delete/", login_required(delete.as_view())),
     url(r"^search/", login_required(search.as_view())),
+    url(r"^crop/(?P<pk>[0-9]+)",crop.as_view()),
     url(r'^', login_required(home.as_view()),name="home")
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
